@@ -1,20 +1,13 @@
-/* creating our basic server */
 
-import express from "express"
-import "dotenv/config"/* using this we can use our environmental variables */
-
-import cors  from "cors";/* cors will allow to connect any Backend with the frontend */
-// import { clerkMiddleware } from '@clerk/express'/* importing clerk middleware to use clerk authentication */
-
+// For routes
+import authRoutes from "./routes/authRoute.js";  // Changed from auth.js to authRoute.js
+import userRoutes from "./routes/userRoute.js"; // Changed from users.js to userRoute.js
+// server.js
+import express from "express";
+import "dotenv/config";
+import cors from "cors";
 import cookieParser from "cookie-parser";
-
-import connectDB from "./configs/db.js"; /* importing the function that will connect us to the database */
-
-import authRoutes from "./routes/auth.js";
-import userRoutes from "./routes/users.js";
-
-// import clerkWebhooks from "./controllers/clerkWebhooks.js"; /* importing the clerk webhooks controller to handle clerk webhooks */
-dotenv.config(); // Loads .env variables
+import connectDB from "./configs/db.js";
 
 connectDB() /* calling the function to connect to the database */
 
