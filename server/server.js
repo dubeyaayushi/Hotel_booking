@@ -2,6 +2,7 @@
 // For routes
 import authRoutes from "./routes/authRoute.js";  // Changed from auth.js to authRoute.js
 import userRoutes from "./routes/userRoute.js"; // Changed from users.js to userRoute.js
+
 // server.js
 import express from "express";
 import "dotenv/config";
@@ -13,6 +14,7 @@ connectDB() /* calling the function to connect to the database */
 
 
 const app = express ()
+
 app.use(cors()) //Enable Cors-origin Resource  Sharing
 app.use(cookieParser());
 
