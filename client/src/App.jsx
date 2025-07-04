@@ -16,7 +16,6 @@ import Login from './pages/Login'
 import Signup from './pages/Signup'
 const App = () => {
 
-   const location = useLocation();
 
   const isOwnerPath = useLocation().pathname.includes("owner")
 
@@ -28,21 +27,13 @@ const App = () => {
      <div className='min-h-[70vh]'>
      
     <Routes>
-      {/* public routes */}
       <Route path ='/' element={<Home/>}/>
       <Route path='/rooms' element={<AllRooms/>}/>
       <Route path="/login" element={<Login />} />
       <Route path='/signup' element={<Signup/>} />
       <Route path='/rooms/:id' element={<RoomDetails/>}/>
-
-
-      {/* protected routes User Routes */}
        <Route element={<ProtectedRoute />}>
       <Route path='/my-bookings' element={<MyBookings/>}/> 
-      </Route>
-
-       {/* hotel owner routes */}
-        <Route element={<ProtectedRoute roles={['owner', 'admin']} />}>
       <Route path='/owner' element={<Layout/>}>
           <Route index element={<Dashboard/>}/>
           <Route path='add-room' element={<AddRoom/>}/>
