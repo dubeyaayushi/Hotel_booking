@@ -1,9 +1,9 @@
 import User from '../models/User.js';
 import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
 
 
-
-// @desc    Register user
+// // @desc    Register user
 // export const register = async (req, res) => {
 //     try {
 //         const { username, email, password, image, role } = req.body;
@@ -38,7 +38,14 @@ import jwt from 'jsonwebtoken';
 
 export const register = async (req, res) => {
   try {
-    const { username,email, password} = req.body;
+    const {username,email, password, role} = req.body;
+    if (!username || !email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide username, email and password"
+      });
+    }
+
 
     // Check if user exists
     const existingUser = await User.findOne({ email });
@@ -50,29 +57,56 @@ export const register = async (req, res) => {
     }
 
     // Create new user
-    const user = await User.create({ username, email, password, role: 'admin' });
-     const token = jwt.sign(
-      { id: user._id, role: user.role }, 
-      process.env.JWT_SECRET, 
-      { expiresIn: process.env.JWT_EXPIRE || '30d' }
-    );
-    res.status(201).json({ 
-      success: true, 
-      token,  // Include the token here
+    // const user = await User.create({ username, email, password, role: 'admin' });
+    const user = await User.create({ 
+  username, 
+  email, 
+  password, 
+  role: role || 'user' // Use requested role or default
+});
+
+
+
+    const token = generateToken(user._id);
+
+    res.status(201).json({
+      success: true,
+      token,
       user: {
         id: user._id,
         username: user.username,
         email: user.email,
-        role: user.role
+        role: user.role // Will be 'user' unless specified
       }
     });
-  } catch (err) {
-    res.status(400).json({ 
-      success: false, 
-      message: err.message 
-    });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
   }
 };
+
+  //    const token = jwt.sign(
+  //     { id: user._id, role: user.role }, 
+  //     process.env.JWT_SECRET, 
+  //     { expiresIn: process.env.JWT_EXPIRE || '30d' }
+  //   );
+    
+  //   res.status(201).json({ 
+  //     success: true, 
+  //     token,  // Include the token here
+  //     user: {
+  //       id: user._id,
+  //       username: user.username,
+  //       email: user.email,
+  //       role: user.role,
+  //     }
+  //   });
+  // } catch (err) {
+  //   res.status(400).json({ 
+  //     success: false, 
+  //     message: err.message 
+  //   });
+//   // }
+// };
 
 
 

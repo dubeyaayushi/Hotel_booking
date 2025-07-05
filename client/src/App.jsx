@@ -13,7 +13,7 @@ import AddRoom from './pages/hotelOwner/AddRoom'
 import ListRoom from './pages/hotelOwner/ListRoom'
 import ProtectedRoute from './components/ProtectRoute'
 import Login from './pages/Login'
-import Signup from './pages/Signup'
+import Signup from './pages/SIgnup'
 const App = () => {
 
 

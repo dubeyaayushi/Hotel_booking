@@ -131,15 +131,26 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const initializeAuth = async () => {
       const savedToken = localStorage.getItem('token');
-      
-      if (savedToken) {
-        try {
-          axios.defaults.headers.common['Authorization'] = `Bearer ${savedToken}`;
-          const userData = await authService.getMe(); // Add this to your authService
-          setUser(userData);
+      const savedUser = localStorage.getItem('user');
+
+      if (savedToken && savedUser) {
+    //     try {
+    //       axios.defaults.headers.common['Authorization'] = `Bearer ${savedToken}`;
+    //       const userData = await authService.getMe(); // Add this to your authService
+    //       setUser(userData);
+    //       setToken(savedToken);
+    //     } catch (error) {
+    //       //handleLogout();
+    //     }
+    //   }
+    //   setLoading(false);
+    // };
+    try {
+          setUser(JSON.parse(savedUser));
           setToken(savedToken);
         } catch (error) {
-          handleLogout();
+          console.error("Failed to parse user data:", error);
+          logout();
         }
       }
       setLoading(false);
@@ -148,24 +159,37 @@ export const AuthProvider = ({ children }) => {
     initializeAuth();
   }, []);
 
-  // Update axios headers when token changes
-  useEffect(() => {
-    if (token) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      localStorage.setItem('token', token);
-    } else {
-      delete axios.defaults.headers.common['Authorization'];
-      localStorage.removeItem('token');
-    }
-  }, [token]);
+  // // Update axios headers when token changes
+  // useEffect(() => {
+  //   if (token) {
+  //     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  //     localStorage.setItem('token', token);
+  //   } else {
+  //     delete axios.defaults.headers.common['Authorization'];
+  //     localStorage.removeItem('token');
+  //   }
+  // }, [token]);
 
   const register = async (userData) => {
-    try {
-      const { user, token } = await authService.register(userData);
-      setUser(user);
-      setToken(token);
-      return { success: true };
+  //   try {
+  //     const { user, token } = await authService.register(userData);
+  //     setUser(user);
+  //     setToken(token);
+  //     return { success: true };
+  //   } catch (error) {
+  //     return {
+  //       success: false,
+  //       error: error.response?.data?.message || 'Registration failed'
+  //     };
+  //   }
+  // };
+  try {
+      const response = await authService.register(userData);
+      setUser(response.user);
+      setToken(response.token);
+      return { success: true, user: response.user };
     } catch (error) {
+      console.error("Registration error:", error);
       return {
         success: false,
         error: error.response?.data?.message || 'Registration failed'
@@ -174,11 +198,24 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async (credentials) => {
+  //   try {
+  //     const { user, token } = await authService.login(credentials);
+  //     setUser(user);
+  //     setToken(token);
+  //     return { success: true };
+  //   } catch (error) {
+  //     return {
+  //       success: false,
+  //       error: error.response?.data?.message || 'Login failed'
+  //     };
+  //   }
+  // };
+     
     try {
-      const { user, token } = await authService.login(credentials);
-      setUser(user);
-      setToken(token);
-      return { success: true };
+      const response = await authService.login(credentials);
+      setUser(response.user);
+      setToken(response.token);
+      return { success: true, user: response.user };
     } catch (error) {
       return {
         success: false,
@@ -188,6 +225,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+      authService.logout();
     setUser(null);
     setToken(null);
   };
