@@ -14,6 +14,7 @@ import ListRoom from './pages/hotelOwner/ListRoom'
 import ProtectedRoute from './components/ProtectRoute'
 import Login from './pages/Login'
 import Signup from './pages/SIgnup'
+import BookNow from './pages/BookNow'
 const App = () => {
 
 
@@ -32,6 +33,7 @@ const App = () => {
       <Route path="/login" element={<Login />} />
       <Route path='/signup' element={<Signup/>} />
       <Route path='/rooms/:id' element={<RoomDetails/>}/>
+      <Route path='/book' element={<BookNow/>}/>
        <Route element={<ProtectedRoute />}>
       <Route path='/my-bookings' element={<MyBookings/>}/> 
       <Route path='/owner' element={<Layout/>}>

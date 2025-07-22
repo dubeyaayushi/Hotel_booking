@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { facilityIcons, roomsDummyData } from '../assets/assets'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import StarRating from '../components/StarRating'
 
 import { assets } from '../assets/assets'
@@ -93,7 +93,7 @@ const AllRooms = () => {
                                     <div>
                                         <p className='text-xl font-medium text-gray-700'>
                                             ${room.pricePerNight}/night</p>
-                                            <button className='"bg-blue-600 text-white rounded px-4 py-2 mt-2 bg-blue-700 transition'>Book Now</button>
+                                            <Link to="/book" className='bg-blue-600 text-white rounded px-4 py-2 mt-2 bg-blue-700 transition'>Book Now</Link>
                                     </div>
                                 </div>
                             </div>

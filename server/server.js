@@ -56,7 +56,7 @@ import "dotenv/config";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import connectDB from "./configs/db.js";
-
+import bookingRoutes from './routes/bookingRoutes.js';
 // Routes
 import authRoutes from "./routes/authRoute.js";
 import userRoutes from "./routes/userRoute.js";
@@ -78,6 +78,7 @@ app.use(cookieParser());
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use('/api/bookings', bookingRoutes);
 
 // Test route
 app.get("/api/test", (req, res) => {
