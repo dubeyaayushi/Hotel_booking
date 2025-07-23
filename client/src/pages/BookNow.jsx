@@ -44,7 +44,7 @@ const BookNow = () => {
         }
       );
 
-      if (response.data.success) {
+      // if (response.data.success) {
 //         alert('Booking confirmed! Check your email for details.');
 //         navigate('/');
 //       }
@@ -63,11 +63,12 @@ const BookNow = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
+            onClose: () => navigate('/') 
         });
-        setTimeout(() => {
-          navigate('/');
-        }, 2000); // Redirect after 2 seconds
-      }
+      //   setTimeout(() => {
+      //     navigate('/');
+      //   }, 2500); // Redirect after 2.5 seconds
+      // }
     } catch (error) {
       toast.error(error.response?.data?.message || 'Booking failed. Please try again.', {
         position: "top-center"
